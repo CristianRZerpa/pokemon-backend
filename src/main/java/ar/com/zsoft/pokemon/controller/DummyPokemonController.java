@@ -18,7 +18,7 @@ public class DummyPokemonController {
                     DummyPokemon.builder().id(1).name("Bulbasaur").build(),
                     DummyPokemon.builder().id(2).name("Ivysaur").build(),
                     DummyPokemon.builder().id(3).name("Venusaur").build(),
-                    DummyPokemon.builder().id(4).name("Charmander ").build(),
+                    DummyPokemon.builder().id(4).name("Charmander").build(),
                     DummyPokemon.builder().id(5).name("Charmeleon").build(),
                     DummyPokemon.builder().id(6).name("Charizard").build(),
                     DummyPokemon.builder().id(7).name("Squirtle").build(),
