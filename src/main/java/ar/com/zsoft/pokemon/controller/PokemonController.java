@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -17,6 +18,14 @@ public class PokemonController {
 
     @Autowired
     private StrategyFactory strategyFactory;
+
+    @GetMapping(path = "/pokemon/{id}")
+    public ResponseEntity<String> getPokemon(
+            @PathVariable("id") Integer id) {
+        String uri = "https://pokeapi.co/api/v2/pokemon/" + id;
+        RestTemplate restTemplate = new RestTemplate();
+        return new ResponseEntity<>(restTemplate.getForObject(uri, String.class), OK);
+    }
 
     @GetMapping(path = "/pokemon/attack/{type}")
     public ResponseEntity<String> listTrainer(
