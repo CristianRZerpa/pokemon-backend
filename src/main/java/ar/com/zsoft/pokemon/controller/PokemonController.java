@@ -1,7 +1,9 @@
 package ar.com.zsoft.pokemon.controller;
 
+import ar.com.zsoft.pokemon.entity.Pokemon;
 import ar.com.zsoft.pokemon.strategy.StrategyFactory;
 import ar.com.zsoft.pokemon.strategy.type.StrategyType;
+import ar.com.zsoft.pokemon.usecases.GetStrategyTypeByPokemon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,9 @@ public class PokemonController {
     @Autowired
     private StrategyFactory strategyFactory;
 
+    @Autowired
+    private GetStrategyTypeByPokemon getStrategyTypeByPokemon;
+
     @GetMapping(path = "/pokemon/{id}")
     public ResponseEntity<String> getPokemon(
             @PathVariable("id") Integer id) {
@@ -30,19 +35,9 @@ public class PokemonController {
     @GetMapping(path = "/pokemon/attack/{type}")
     public ResponseEntity<String> listTrainer(
             @PathVariable("type") String type) {
-
-        //TODO: added real pokemon type
-        // and call like: StrategyType.findPokemonActionStrategy(pokemon.getType).attack()
-        // instead of pokemon.getType you cloud be use a US like GetStrategyTypeByPokemon
-        if (type.equalsIgnoreCase("fire")) {
-            strategyFactory.findPokemonActionStrategy(StrategyType.FIRE).attack();
-        } else if (type.equalsIgnoreCase("water")) {
-            strategyFactory.findPokemonActionStrategy(StrategyType.WATER).attack();
-        } else if (type.equalsIgnoreCase("grass")) {
-            strategyFactory.findPokemonActionStrategy(StrategyType.GRASS).attack();
-        } else {
-            strategyFactory.findPokemonActionStrategy(StrategyType.NORMAL).attack();
-        }
+        Pokemon pokemon = Pokemon.builder().type(type).build();
+        StrategyType strategyType = getStrategyTypeByPokemon.apply(pokemon);
+        strategyFactory.findPokemonActionStrategy(strategyType).attack();
         return new ResponseEntity<>("Attack DONE", OK);
     }
 

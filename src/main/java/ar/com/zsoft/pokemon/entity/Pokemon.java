@@ -25,6 +25,8 @@ public class Pokemon {
     private Integer hp_max;
     @Column
     private Integer hp;
+    @Column
+    private String type;
     @ManyToOne
     @JoinColumn(name = "id_trainer", nullable = false, updatable = false)
     private Trainer trainer;
@@ -32,12 +34,13 @@ public class Pokemon {
     public Pokemon() {
     }
 
-    public Pokemon(Integer id, String number, String name, Integer hp_max, Integer hp, Trainer trainer) {
+    public Pokemon(Integer id, String number, String name, Integer hp_max, Integer hp, String type, Trainer trainer) {
         this.id = id;
         this.number = number;
         this.name = name;
         this.hp_max = hp_max;
         this.hp = hp;
+        this.type = type;
         this.trainer = trainer;
     }
 }
